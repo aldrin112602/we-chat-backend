@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "nodemon index.js"
+    "serve": "nodemon index.js",
+    "push": "git diff-index --quiet HEAD || (git add . && git commit -m \"Updated commit\" && git push)"
   },
   "keywords": [],
   "author": "",
@@ -13,10 +14,8 @@
   "dependencies": {
     "crypto": "^1.0.1",
     "express": "^4.19.2",
-    "fs": "^0.0.1-security",
     "helmet": "^7.1.0",
     "mongoose": "^8.4.1",
-    "nodemon": "^3.1.3",
-    "path": "^0.12.7"
+    "nodemon": "^3.1.3"
   }
 }

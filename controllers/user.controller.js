@@ -2,8 +2,8 @@ const User = require("../models/user.model");
 
 const getUsers = async (req, res) => {
   try {
-    const Users = await User.find({});
-    res.status(200).json(Users);
+    const users = await User.find({});
+    res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -12,8 +12,11 @@ const getUsers = async (req, res) => {
 const getUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const User = await User.findById(id);
-    res.status(200).json(User);
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -21,8 +24,8 @@ const getUser = async (req, res) => {
 
 const createUser = async (req, res) => {
   try {
-    const User = await User.create(req.body);
-    res.status(200).json(User);
+    const user = await User.create(req.body);
+    res.status(201).json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -31,15 +34,11 @@ const createUser = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-
-    const User = await User.findByIdAndUpdate(id, req.body);
-
-    if (!User) {
-      return res.status(404).json({ message: "Product not found" });
+    const user = await User.findByIdAndUpdate(id, req.body, { new: true });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
-
-    const updatedUser = await User.findById(id);
-    res.status(200).json(updatedUser);
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -48,14 +47,11 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
-
-    const User = await User.findByIdAndDelete(id);
-
-    if (!User) {
-      return res.status(404).json({ message: "Product not found" });
+    const user = await User.findByIdAndDelete(id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
-
-    res.status(200).json({ message: "Product deleted successfully" });
+    res.status(200).json({ message: "User deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const UserSchema = mongoose.Schema(
+const UserSchema = new mongoose.Schema(
     {
         name: {
             type: String,
@@ -10,11 +10,13 @@ const UserSchema = mongoose.Schema(
         email: {
             type: String,
             required: [true, "Please enter user email"],
+            unique: true,
         },
 
         username: {
             type: String,
             required: [true, "Please enter user username"],
+            unique: true,
         },
 
         password: {
@@ -24,57 +26,62 @@ const UserSchema = mongoose.Schema(
 
         profile: {
             type: String,
-            required: false,
+            default: "",
         },
 
         address: {
             type: String,
-            required: false,
+            default: "",
         },
 
         bio: {
             type: String,
-            required: false,
+            default: "",
         },
 
         gender: {
             type: String,
-            required: false,
+            enum: ["male", "female", "other"],
+            default: "other",
         },
 
         age: {
             type: Number,
-            required: false,
+            min: 0,
         },
 
         phone: {
             type: String,
-            required: false,
+            default: "",
         },
 
         city: {
             type: String,
-            required: false,
+            default: "",
         },
 
         state: {
             type: String,
-            required: false,
+            default: "",
         },
 
         zipcode: {
             type: String,
-            required: false,
+            default: "",
         },
 
         country: {
             type: String,
-            required: false,
+            default: "",
         },
 
         birthdate: {
-            type: String,
-            required: false,
+            type: Date,
+        },
+
+        active_status: {
+            type: Boolean,
+            default: true,
         }
     },
     {

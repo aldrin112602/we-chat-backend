@@ -1,19 +1,22 @@
 const express = require("express");
 const helmet = require("helmet");
 const crypto = require('crypto');
-
+const mongoose = require("mongoose");
+const User = require("./models/user.model.js");
+const userRoute = require("./routes/user.route.js");
 const app = express();
 
 
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({extended: false}));
 app.disable("x-powered-by");
 app.use(helmet.hidePoweredBy());
 app.use(helmet.frameguard({ action: "deny" }));
 app.use(helmet.xssFilter());
 app.use(helmet.noSniff());
 app.use(helmet.ieNoOpen());
-
-const ninetyDaysInSeconds = 90 * 24 * 60 * 60;
-app.use(helmet.hsts({ maxAge: ninetyDaysInSeconds, force: true }));
+app.use(helmet.hsts({ maxAge: (90 * 24 * 60 * 60), force: true }));
 app.use(helmet.dnsPrefetchControl());
 app.use(
   helmet.contentSecurityPolicy({
@@ -23,8 +26,7 @@ app.use(
     },
   })
 );
-
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   res.set({
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers":
@@ -33,6 +35,8 @@ app.use(function (req, res, next) {
   next();
 });
 
+// routes
+app.use("/api/user", userRoute);
 
 
 const validateUser = (username, password) => {
@@ -66,7 +70,7 @@ app.post('/signin', (req, res) => {
 })
 
 
-app.get('/', function(req, res) {
+app.get('/', (req, res) => {
     return res.json({
         message: 'Welcome to Wechat API',
         author: {
@@ -78,6 +82,18 @@ app.get('/', function(req, res) {
     })
 })
 
-app.listen(3000, () => {
-  console.log("Server is running on http://localhost:3000");
-});
+
+
+mongoose
+  .connect(
+    "mongodb+srv://caballeroaldrin02:Ua4KKDxu6fQunacK@cluster0.rtjrahh.mongodb.net/Node-API?retryWrites=true&w=majority&appName=Cluster0"
+  )
+  .then(() => {
+    console.log("Connected to database!");
+    app.listen(3000, () => {
+        console.log("Server is running on http://localhost:3000");
+      });
+  })
+  .catch(() => {
+    console.log("Connection failed!");
+  });

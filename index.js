@@ -1,15 +1,15 @@
 require('dotenv').config();
 const express = require("express");
 const helmet = require("helmet");
-const crypto = require('crypto');
 const mongoose = require("mongoose");
-const User = require("./models/user.model.js");
+const cors = require("cors");
 const userRoute = require("./routes/user.route.js");
 const app = express();
 
 
 // Middleware
 app.use(express.json());
+app.use(cors());
 app.use(express.urlencoded({extended: false}));
 app.disable("x-powered-by");
 app.use(helmet.hidePoweredBy());
@@ -37,38 +37,7 @@ app.use((req, res, next) => {
 });
 
 // routes
-app.use("/api/user", userRoute);
-
-
-const validateUser = (username, password) => {
-    return username === 'exampleUser' && password === 'examplePassword';
-  };
-
-
-
-app.post('/signin', (req, res) => {
-    const { username, password } = req.body;
-
-    const isValidUser = validateUser(username, password);
-
-    if (isValidUser) {
-        const token = crypto.randomBytes(32).toString('hex');
-        res.json({ token });
-    } else {
-        res.status(401).send('Invalid credentials');
-    }
-
-
-    res.json({
-        message: 'Welcome to Wechat API',
-        author: {
-            name: 'Aldrin Caballero',
-            github: 'https://github.com/aldrin112602',
-            email: 'caballeroaldrin02@gmail.com'
-        },
-        date: new Date()
-    })
-})
+app.use("/api/user/", userRoute);
 
 
 app.get('/', (req, res) => {

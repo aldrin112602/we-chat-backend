@@ -14,8 +14,8 @@ const {
 } = require("../controllers/user_auth.controller.js");
 
 
-router.post("signIn", signIn);
-router.post("signUp", signUp);
+router.post("/signIn", signIn);
+router.post("/signUp", signUp);
 
 // router.get("/", getUsers);
 // router.get("/:id", getUser);

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const helmet = require("helmet");
 const crypto = require('crypto');
@@ -82,12 +83,8 @@ app.get('/', (req, res) => {
     })
 })
 
-
-
 mongoose
-  .connect(
-    "mongodb+srv://caballeroaldrin02:Ua4KKDxu6fQunacK@cluster0.rtjrahh.mongodb.net/Node-API?retryWrites=true&w=majority&appName=Cluster0"
-  )
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log("Connected to database!");
     app.listen(3000, () => {

@@ -1,30 +1,25 @@
 const mongoose = require("mongoose");
 
-const EmployeeSchema = mongoose.Schema(
+const UserSchema = mongoose.Schema(
     {
         name: {
             type: String,
-            required: [true, "Please enter employee name"],
+            required: [true, "Please enter user name"],
         },
 
-        gender: {
+        email: {
             type: String,
-            required: [true, "Please enter employee gender"],
+            required: [true, "Please enter user email"],
         },
 
-        position: {
+        username: {
             type: String,
-            required: [true, "Please enter employee position"],
+            required: [true, "Please enter user username"],
         },
 
-        address: {
+        password: {
             type: String,
-            required: [true, "Please enter employee address"],
-        },
-
-        salary: {
-            type: Number,
-            required: [true, "Please enter employee salary"],
+            required: [true, "Please enter user password"],
         },
 
         profile: {
@@ -32,13 +27,60 @@ const EmployeeSchema = mongoose.Schema(
             required: false,
         },
 
+        address: {
+            type: String,
+            required: false,
+        },
+
+        bio: {
+            type: String,
+            required: false,
+        },
+
+        gender: {
+            type: String,
+            required: false,
+        },
+
+        age: {
+            type: Number,
+            required: false,
+        },
+
+        phone: {
+            type: String,
+            required: false,
+        },
+
+        city: {
+            type: String,
+            required: false,
+        },
+
+        state: {
+            type: String,
+            required: false,
+        },
+
+        zipcode: {
+            type: String,
+            required: false,
+        },
+
+        country: {
+            type: String,
+            required: false,
+        },
+
+        birthdate: {
+            type: String,
+            required: false,
+        }
     },
     {
         timestamps: true,
     }
 );
 
-
-const Employee = mongoose.model("Employee", EmployeeSchema);
-
-module.exports = Employee;
+const User = mongoose.model("User", UserSchema);
+module.exports = User;
